@@ -73,8 +73,10 @@ braintree.client.create({
       venmoInstance.tokenize(function (tokenizeErr, payload) {
         if (err) {
           handleVenmoError(tokenizeErr);
+          alert(tokenizeErr);
         } else {
           handleVenmoSuccess(payload);
+          alert(payload.nonce);
         }
       });
       return;
