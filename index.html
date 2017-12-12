@@ -27,7 +27,7 @@ braintree.client.create({
   // This could happen if there is a network error or if the authorization
   // is invalid.
   if (clientErr) {
-    console.error('Error creating client:', clientErr);
+    document.write('Error creating client:', clientErr);
     return;
   }
 
@@ -42,7 +42,7 @@ braintree.client.create({
 
     // At this point, you should access the deviceData value and provide it
     // to your server, e.g. by injecting it into your form as a hidden input.
-    console.log('Got device data:', dataCollectorInstance.deviceData);
+    document.write('Got device data:', dataCollectorInstance.deviceData);
   });
 
   braintree.venmo.create({
@@ -53,14 +53,14 @@ braintree.client.create({
     allowNewBrowserTab: false
   }, function (venmoErr, venmoInstance) {
     if (venmoErr) {
-      console.error('Error creating Venmo:', venmoErr);
+      document.write('Error creating Venmo:', venmoErr);
       document.write(venmoErr)
       return;
     }
 
     // Verify browser support before proceeding.
     if (!venmoInstance.isBrowserSupported()) {
-      console.log('Browser does not support Venmo');
+      document.write('Browser does not support Venmo');
       // displayVenmoButton(venmoInstance);
       return;
     }
@@ -99,7 +99,7 @@ function displayVenmoButton(venmoInstance) {
         handleVenmoError(tokenizeErr);
       } else {
         handleVenmoSuccess(payload);
-        document.write(payload.nonce);
+        document.write("hello");
       }
     });
   });
@@ -107,21 +107,21 @@ function displayVenmoButton(venmoInstance) {
 
 function handleVenmoError(err) {
   if (err.code === 'VENMO_CANCELED') {
-    console.log('App is not available or user aborted payment flow');
+    document.write('App is not available or user aborted payment flow');
   } else if (err.code === 'VENMO_APP_CANCELED') {
-    console.log('User canceled payment flow');
+    document.write('User canceled payment flow');
   } else {
-    console.error('An error occurred:', err.message);
+    document.write('An error occurred:', err.message);
   }
 }
 
 function handleVenmoSuccess(payload) {
   // Send the payment method nonce to your server, e.g. by injecting
   // it into your form as a hidden input.
-  console.log('Got a payment method nonce:', payload.nonce);
+  document.write('Got a payment method nonce:', payload.nonce);
   document.write(payload.nonce);
   // Display the Venmo username in your checkout UI.
-  console.log('Venmo user:', payload.details.username);
+  document.write('Venmo user:', payload.details.username);
 }
 // Create a client.
 </script>
