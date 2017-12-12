@@ -14,7 +14,7 @@
       border:none;
     }
   </style>
-  <button id="venmo-button"  display="none"><img src="https://i.imgur.com/foeojP0.png"></button>
+  <button id="venmo-button"  display="none" style="-webkit-appearance:none" border="none"><img src="https://i.imgur.com/foeojP0.png"></button>
   <script>
 
   var venmoButton = document.getElementById('venmo-button');
@@ -69,18 +69,18 @@ braintree.client.create({
     // Check if tokenization results already exist. This occurs when your
     // checkout page is relaunched in a new tab. This step can be omitted
     // if allowNewBrowserTab is false.
-//     if (venmoInstance.hasTokenizationResult()) {
-//       venmoInstance.tokenize(function (tokenizeErr, payload) {
-//         if (err) {
-//           handleVenmoError(tokenizeErr);
-//         } else {
-//           handleVenmoSuccess(payload);
-//         }
-//       });
-//       return;
-//     }
-//   });
-// });
+    if (venmoInstance.hasTokenizationResult()) {
+      venmoInstance.tokenize(function (tokenizeErr, payload) {
+        if (err) {
+          handleVenmoError(tokenizeErr);
+        } else {
+          handleVenmoSuccess(payload);
+        }
+      });
+      return;
+    }
+  });
+});
 
 function displayVenmoButton(venmoInstance) {
   // Assumes that venmoButton is initially display: none.
@@ -96,7 +96,6 @@ function displayVenmoButton(venmoInstance) {
         handleVenmoError(tokenizeErr);
       } else {
         handleVenmoSuccess(payload);
-
       }
     });
   });
