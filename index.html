@@ -14,7 +14,7 @@
       border:none;
     }
   </style>
-  <button id="venmo-button"  display="none"><img src="https://i.imgur.com/foeojP0.png"></button>
+  <button id="venmo-button"  display="none"><img src="https://imgur.com/a/sQR7q"></button>
   <script>
 
   var venmoButton = document.getElementById('venmo-button');
@@ -27,7 +27,7 @@ braintree.client.create({
   // This could happen if there is a network error or if the authorization
   // is invalid.
   if (clientErr) {
-    document.write('Error creating client:', clientErr);
+    console.error('Error creating client:', clientErr);
     return;
   }
 
@@ -42,7 +42,7 @@ braintree.client.create({
 
     // At this point, you should access the deviceData value and provide it
     // to your server, e.g. by injecting it into your form as a hidden input.
-    document.write('Got device data:', dataCollectorInstance.deviceData);
+    console.log('Got device data:', dataCollectorInstance.deviceData);
   });
 
   braintree.venmo.create({
@@ -53,14 +53,13 @@ braintree.client.create({
     allowNewBrowserTab: false
   }, function (venmoErr, venmoInstance) {
     if (venmoErr) {
-      document.write('Error creating Venmo:', venmoErr);
-      document.write(venmoErr)
+      console.error('Error creating Venmo:', venmoErr);
       return;
     }
 
     // Verify browser support before proceeding.
     if (!venmoInstance.isBrowserSupported()) {
-      document.write('Browser does not support Venmo');
+      console.log('Browser does not support Venmo');
       // displayVenmoButton(venmoInstance);
       return;
     }
@@ -70,20 +69,18 @@ braintree.client.create({
     // Check if tokenization results already exist. This occurs when your
     // checkout page is relaunched in a new tab. This step can be omitted
     // if allowNewBrowserTab is false.
-    if (venmoInstance.hasTokenizationResult()) {
-      venmoInstance.tokenize(function (tokenizeErr, payload) {
-        if (err) {
-          handleVenmoError(tokenizeErr);
-          document.write(tokenizeErr);
-        } else {
-          handleVenmoSuccess(payload);
-          document.write(payload.nonce);
-        }
-      });
-      return;
-    }
-  });
-});
+//     if (venmoInstance.hasTokenizationResult()) {
+//       venmoInstance.tokenize(function (tokenizeErr, payload) {
+//         if (err) {
+//           handleVenmoError(tokenizeErr);
+//         } else {
+//           handleVenmoSuccess(payload);
+//         }
+//       });
+//       return;
+//     }
+//   });
+// });
 
 function displayVenmoButton(venmoInstance) {
   // Assumes that venmoButton is initially display: none.
@@ -99,7 +96,6 @@ function displayVenmoButton(venmoInstance) {
         handleVenmoError(tokenizeErr);
       } else {
         handleVenmoSuccess(payload);
-        document.write("hello");
       }
     });
   });
@@ -107,21 +103,21 @@ function displayVenmoButton(venmoInstance) {
 
 function handleVenmoError(err) {
   if (err.code === 'VENMO_CANCELED') {
-    document.write('App is not available or user aborted payment flow');
+    console.log('App is not available or user aborted payment flow');
   } else if (err.code === 'VENMO_APP_CANCELED') {
-    document.write('User canceled payment flow');
+    console.log('User canceled payment flow');
   } else {
-    document.write('An error occurred:', err.message);
+    console.error('An error occurred:', err.message);
   }
 }
 
 function handleVenmoSuccess(payload) {
   // Send the payment method nonce to your server, e.g. by injecting
   // it into your form as a hidden input.
-  document.write('Got a payment method nonce:', payload.nonce);
-  document.write(payload.nonce);
+  console.log('Got a payment method nonce:', payload.nonce);
+  alert(payload.nonce);
   // Display the Venmo username in your checkout UI.
-  document.write('Venmo user:', payload.details.username);
+  console.log('Venmo user:', payload.details.username);
 }
 // Create a client.
 </script>
