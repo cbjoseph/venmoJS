@@ -8,7 +8,7 @@
     <title>title</title>
   </head>
   <body>
-  <button id="venmo-button"></button>
+  <!-- <button id="venmo-button" display="none"></button> -->
   <script>
 
   var venmoButton = document.getElementById('venmo-button');
@@ -54,6 +54,7 @@ braintree.client.create({
     // Verify browser support before proceeding.
     if (!venmoInstance.isBrowserSupported()) {
       console.log('Browser does not support Venmo');
+      // displayVenmoButton(venmoInstance);
       return;
     }
 
